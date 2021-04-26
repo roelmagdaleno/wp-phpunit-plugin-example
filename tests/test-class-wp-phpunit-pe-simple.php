@@ -17,8 +17,7 @@ class WP_PHPUnit_PE_Simple_Test extends WP_UnitTestCase {
 	}
 
 	public function test_change_post_title() {
-		$title = get_the_title( $this->post );
-		$this->assertSame( 'My name is Roel', $title );
+		$this->assertSame( 'My name is Roel', get_the_title( $this->post ) );
 	}
 
 	public function test_insert_new_link() {
