@@ -28,6 +28,6 @@ class WP_PHPUnit_PE_Simple_Test extends WP_UnitTestCase {
 		the_content();
 		$post_content = ob_get_clean();
 
-		$this->assertContains( '<a href="https://roelmagdaleno.com">https://roelmagdaleno.com</a>', $post_content );
+		$this->assertContains( '<p><a href="https://roelmagdaleno.com">https://roelmagdaleno.com</a></p>', $post_content );
 	}
 }

@@ -23,7 +23,7 @@ class WP_PHPUnit_PE_Simple {
 	}
 
 	public function insert_new_link( $content ) {
-		$content .= '<a href="https://roelmagdaleno.com">https://roelmagdaleno.com</a>';
+		$content .= '<p><a href="https://roelmagdaleno.com">https://roelmagdaleno.com</a></p>';
 		return $content;
 	}
 }
