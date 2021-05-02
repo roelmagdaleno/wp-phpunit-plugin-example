@@ -19,6 +19,30 @@ class WP_PHPUnit_PE_API_REST_Test extends WP_UnitTestCase {
 		$this->assertSame( 'Morty Smith', $character['name'] );
 	}
 
+	/**
+	 * @depends test_if_current_character_is_morty
+	 */
+	public function test_if_character_response_is_cached() {
+		$character_id = 2;
+		$characters   = get_option( 'rickandmortyapi_characters', array() );
+
+		$this->assertNotEmpty( $characters );
+		$this->assertArrayHasKey( $character_id, $characters );
+		$this->assertSame( 'Morty Smith', $characters[ $character_id ]['name'] );
+	}
+
+	/**
+	 * @depends test_if_current_character_is_morty
+	 */
+	public function test_if_character_response_is_from_cached_version() {
+		$character_id = 2;
+		$character    = $this->api_rest->get_character( $character_id );
+
+		$this->assertNotWPError( $character );
+		$this->assertIsArray( $character );
+		$this->assertSame( 'Morty Smith', $character['name'] );
+	}
+
 	public function test_if_character_is_not_found() {
 		$character_id = 22222222;
 		$character    = $this->api_rest->get_character( $character_id );

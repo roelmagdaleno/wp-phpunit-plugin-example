@@ -22,6 +22,12 @@ class WP_PHPUnit_PE_API_REST {
 			return new WP_Error( 'no_id', 'The character ID is invalid.' );
 		}
 
+		$characters = get_option( 'rickandmortyapi_characters', array() );
+
+		if ( ! empty( $characters ) && isset( $characters[ $id ] ) ) {
+			return $characters[ $id ];
+		}
+
 		$response = wp_remote_get( $this->uri . 'character/' . $id );
 
 		if ( is_wp_error( $response ) ) {
@@ -34,6 +40,16 @@ class WP_PHPUnit_PE_API_REST {
 
 		return ! in_array( $current_http_code, $valid_http_codes, true )
 			? new WP_Error( 'not_found', $response['error'] )
-			: $response;
+			: $this->cache_response( $response );
+	}
+
+	private function cache_response( $response ) {
+		$characters = get_option( 'rickandmortyapi_characters', array() );
+
+		$characters[ $response['id'] ] = $response;
+
+		update_option( 'rickandmortyapi_characters', $characters );
+
+		return $response;
 	}
 }
